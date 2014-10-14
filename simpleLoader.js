@@ -13,12 +13,16 @@ define(function(require) {
       // Set the main object
       setMain: function setMain(newMain) {
          this.main = newMain;
+         if (!this.main.hasOwnProperty('_modules') {
+            Object.defineProperty(this.main, '_modules', { value: {} });
+         });
       },
       // Returns an existing module (or loads if not available)
       requireModule: function requireModule(name) { return this.main._modules[name]; },
+      addModule: function addModule(name, obj) { this.main._modules[name] = obj; },
       // Returns an existing type (or errors if not available)
-      requireType: function requireType(name) { return this.main[name]; },
-      addType: function addType(name, obj) {
+      requireClass: function requireClass(name) { return this.main[name]; },
+      addClass: function addClass(name, obj) {
          // Add new type
          // TODO: Enforce name starting with capital letter
          this.main[name] = obj;
