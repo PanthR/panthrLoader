@@ -6,7 +6,7 @@ define(function(require) {
    mixin = require('./mixin');
 
    function Loader (main) {
-      this.main = main;
+      this.setMain(main);
    }
 
    Loader.prototype = {
@@ -64,18 +64,21 @@ define(function(require) {
    // addModuleMethod('Stats.sum', f);
    // addModuleMethod('Stats', { sum: f, mean: g });
    function normalizeArguments(module, name, method) {
-      if (typeof method !== 'undefined') { name = { name: method }; }
-      if (typeof name === 'function') {
+      var bindings;
+      bindings = {};
+      if (typeof method !== 'undefined') {
+         bindings[name] = method;
+      } else if (typeof name !== 'function') {
+         return { module: module, methods: name};
+      } else {
          module = module.split('.');
          if (module.length !== 2) {
             throw new Error('Invalid module method specification in addModuleMethod');
          }
-         method = name;
-         name = module[1];
-         name = { name: method };
+         bindings[module[1]] = name;
          module = module[0];
-      }
-      return { module: module, methods: name };
+      } 
+      return { module: module, methods: bindings };
    }
 
    return Loader;
