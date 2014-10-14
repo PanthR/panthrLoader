@@ -1,5 +1,5 @@
 {
-   "name": "panthr-loader",
+   "name": "panthrLoader",
    "version": "0.0.1",
    "description": "Simple loader for PanthR project",
    "main": "simpleLoader.js",
