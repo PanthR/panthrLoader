@@ -13,9 +13,9 @@ define(function(require) {
       // Set the main object
       setMain: function setMain(newMain) {
          this.main = newMain;
-         if (!this.main.hasOwnProperty('_modules') {
+         if (!this.main.hasOwnProperty('_modules')) {
             Object.defineProperty(this.main, '_modules', { value: {} });
-         });
+         }
       },
       // Returns an existing module (or loads if not available)
       requireModule: function requireModule(name) { return this.main._modules[name]; },
