@@ -74,17 +74,19 @@ define(function(require) {
       var bindings, regexp;
       bindings = {};
       regexp = /^(.*)\.([^\.]*)$/;
-      if (typeof method !== 'undefined') {
+      if (typeof method === 'undefined') {
+         if (typeof name !== 'function') {
+          return { module: module, methods: name };
+         }
+         module = module.match(regexp);
+         if (module == null) {
+            throw new Error('Invalid module method specification in addModuleMethod');
+         }
+         bindings[module[2]] = name;
+         module = module[1];
+      } else {
          bindings[name] = method;
-      } else if (typeof name !== 'function') {
-         return { module: module, methods: name};
       }
-      module = module.match(regexp);
-      if (module == null) {
-         throw new Error('Invalid module method specification in addModuleMethod');
-      }
-      bindings[module[2]] = name;
-      module = module[1];
       return { module: module, methods: bindings };
    }
 
