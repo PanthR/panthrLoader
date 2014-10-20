@@ -68,24 +68,23 @@ define(function(require) {
    // addModuleMethod('Stats', 'sum', f);
    // addModuleMethod('Stats.sum', f);
    // addModuleMethod('Stats', { sum: f, mean: g });
-   // 
+   //
    // Note:  for addModuleMethod('Stats.subA.sum', f), need to break at the *last* dot.
    function normalizeArguments(module, name, method) {
       var bindings, regexp;
       bindings = {};
-      regexp = /^(.*)\.([^\.]*)$/
+      regexp = /^(.*)\.([^\.]*)$/;
       if (typeof method !== 'undefined') {
          bindings[name] = method;
       } else if (typeof name !== 'function') {
          return { module: module, methods: name};
-      } else {
-         module = module.match(regexp);
-         if (module == null) {
-            throw new Error('Invalid module method specification in addModuleMethod');
-         }
-         bindings[module[2]] = name;
-         module = module[1];
-      } 
+      }
+      module = module.match(regexp);
+      if (module == null) {
+         throw new Error('Invalid module method specification in addModuleMethod');
+      }
+      bindings[module[2]] = name;
+      module = module[1];
       return { module: module, methods: bindings };
    }
 
@@ -111,8 +110,7 @@ define(function(require) {
          throw new Error('Warning!!!! Trying to set existing property: ' + path[0]);
       }
       root[path[0]] = property;
-      return;
-   };
+   }
 
    // Takes an object to mix in to, `obj1`, and an object to mix, `obj2`.
    // Writes to console.error if the objects have any property in common
@@ -125,7 +123,7 @@ define(function(require) {
             obj1[key] = obj2[key];
          }
       });
-   };
+   }
 
    return Loader;
 
