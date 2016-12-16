@@ -75,12 +75,16 @@ define(function(require) {
       bindings = {};
       regexp = /^(.*)\.([^\.]*)$/;
       if (typeof method === 'undefined') {
-         if (typeof name !== 'function') {
-          return { module: module, methods: name };
+         if (typeof name === 'object') {
+            return { module: module, methods: name };
+         } else if (typeof name === 'string') {
+            throw new Error('normalizeArguments: Expected a function for ' + name + ' but received undefined');
+         } else if (typeof name !== 'function') {
+            throw new Error('Expected object or function in normalizeArguments');
          }
          module = module.match(regexp);
          if (module == null) {
-            throw new Error('Invalid module method specification in addModuleMethod');
+            throw new Error('Invalid module method specification in normalizeArguments');
          }
          bindings[module[2]] = name;
          module = module[1];
